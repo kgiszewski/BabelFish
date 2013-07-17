@@ -34,18 +34,6 @@ namespace BabelFish
             }
         }
 
-        public string Path
-        {
-            get
-            {
-                return _path;
-            }
-            set
-            {
-                _path = value;
-            }
-        }
-
         public string Icon
         {
             get
@@ -86,10 +74,7 @@ namespace BabelFish
                 return false;
             }
         }
-        public ActionCreateTranslation(string path)
-        {
-            this._path = path;
-        }
+
         public ActionCreateTranslation()
         {
 

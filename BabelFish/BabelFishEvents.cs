@@ -22,10 +22,11 @@ namespace BabelFish
 
         private void BaseTree_BeforeNodeRender(ref XmlTree sender, ref XmlTreeNode node, EventArgs e)
         {
+            
             switch (node.NodeType.ToLower())
             {
                 case "content":
-
+                    
                     try
                     {
                         //add 'Create Translation' for nodes that have a translation child AND have a 'language' property
@@ -33,12 +34,29 @@ namespace BabelFish
                         
                         DocumentType translationDocType = DocumentType.GetByAlias(document.ContentType.Alias + BabelFishCreateTranslation.PropertySuffix);
 
-                        if (translationDocType != null && (translationDocType.MasterContentType==document.ContentType.Id) && translationDocType.getPropertyType(BabelFishCreateTranslation.LanguagePropertyAlias) != null)
+                        /*
+                        try
                         {
+                            Log.Add(LogTypes.Custom, 0, "BabelFish Events TD!=null=>" + (translationDocType != null));
+                            Log.Add(LogTypes.Custom, 0, "translationDocType.MasterContentType==document.ContentType.Id=>" + (translationDocType.MasterContentType == document.ContentType.Id));
+                            Log.Add(LogTypes.Custom, 0, "translationDocType.getPropertyType(BabelFishCreateTranslation.LanguagePropertyAlias) != null=>" + (translationDocType.getPropertyType(BabelFishCreateTranslation.LanguagePropertyAlias) != null));
+                        }
+                        catch (Exception e4)
+                        {
+                            Log.Add(LogTypes.Custom, 0, "Log error");
+                        }
+                        */
 
+                        if (
+                            translationDocType != null &&
+                            document.ContentType!=null&&
+                            (translationDocType.MasterContentType==document.ContentType.Id) && 
+                            translationDocType.getPropertyType(BabelFishCreateTranslation.LanguagePropertyAlias) != null)
+                        {
+                            Log.Add(LogTypes.Custom, 0, "Adding action menu items to=>"+node.Text);
+                            
                             node.Menu.Insert(7, ContextMenuSeperator.Instance);
-                            node.Menu.Insert(8, new ActionCreateTranslation());
-                            break;                            
+                            node.Menu.Insert(8, new ActionCreateTranslation());                    
                         }
 
                         //remove 'create' for 'BabelFishTranslationFolder'
@@ -56,11 +74,9 @@ namespace BabelFish
                                 node.Icon=document.getProperty(BabelFishCreateTranslation.LanguagePropertyAlias).Value+".png";
                             } catch {}
                         }
-
-
                     }
-                    catch{
-
+                    catch(Exception e2){
+                        Log.Add(LogTypes.Custom, 0, "BabelFish Events Exception=>"+e2.Message);
                     }
 
                     break;
