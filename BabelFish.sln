@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Web Developer Express 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationModule", "TranslationModule\TranslationModule.csproj", "{5D5E9FCA-F09B-4B32-B16B-54C8A5C0B3D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabelFish", "BabelFish\BabelFish.csproj", "{5D5E9FCA-F09B-4B32-B16B-54C8A5C0B3D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

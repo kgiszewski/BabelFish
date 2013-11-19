@@ -34,26 +34,13 @@ namespace BabelFish
                         
                         DocumentType translationDocType = DocumentType.GetByAlias(document.ContentType.Alias + BabelFishCreateTranslation.PropertySuffix);
 
-                        /*
-                        try
-                        {
-                            Log.Add(LogTypes.Custom, 0, "BabelFish Events TD!=null=>" + (translationDocType != null));
-                            Log.Add(LogTypes.Custom, 0, "translationDocType.MasterContentType==document.ContentType.Id=>" + (translationDocType.MasterContentType == document.ContentType.Id));
-                            Log.Add(LogTypes.Custom, 0, "translationDocType.getPropertyType(BabelFishCreateTranslation.LanguagePropertyAlias) != null=>" + (translationDocType.getPropertyType(BabelFishCreateTranslation.LanguagePropertyAlias) != null));
-                        }
-                        catch (Exception e4)
-                        {
-                            Log.Add(LogTypes.Custom, 0, "Log error");
-                        }
-                        */
-
                         if (
                             translationDocType != null &&
                             document.ContentType!=null&&
                             (translationDocType.MasterContentType==document.ContentType.Id) && 
                             translationDocType.getPropertyType(BabelFishCreateTranslation.LanguagePropertyAlias) != null)
                         {
-                            Log.Add(LogTypes.Custom, 0, "Adding action menu items to=>"+node.Text);
+                            //Log.Add(LogTypes.Custom, 0, "Adding action menu items to=>"+node.Text);
                             
                             node.Menu.Insert(7, ContextMenuSeperator.Instance);
                             node.Menu.Insert(8, new ActionCreateTranslation());                    
