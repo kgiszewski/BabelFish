@@ -223,7 +223,6 @@
     </Compile>
     <Compile Include="BabelFishEvents.cs" />
     <Compile Include="BabelFishExtensions.cs" />
-    <Compile Include="BabelFishMvcHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BabelFishModule.cs" />
   </ItemGroup>

@@ -37,16 +37,16 @@ namespace BabelFish
             //app.Context.Response.Write("path=>"+path+"<br/>");
 
             List<string> pathPieces = new List<string>();
-            pathPieces.AddRange(path.Split('/').Where(o=>o!=""));  
+            pathPieces.AddRange(path.Split('/').Where(o => o != ""));  
 
             if (pathPieces.Count > 1)
             {
                 //must be at something like mydomain.com/en/home or mydomain.com/somefolder/'langiso'/home
                 //grab the second to last pieces
-                SelectedLanguage = pathPieces[pathPieces.Count-2];
+                SelectedLanguage = pathPieces[pathPieces.Count - 2];
                 //app.Context.Response.Write("lang=>" + SelectedLanguage + pathPieces.Count+"<br/>");
 
-                if (IsoList.Contains(SelectedLanguage)||SelectedLanguage==PrimaryLanguage)
+                if (IsoList.Contains(SelectedLanguage) || SelectedLanguage==PrimaryLanguage)
                 {
                     string newPath = "";
                     pathPieces.Remove(SelectedLanguage);
@@ -77,7 +77,6 @@ namespace BabelFish
                 else
                 {
                     //must be on the root domain i.e.  mydomain.com/en  or mydomain.com
-
                 }                
             }
         }
@@ -88,7 +87,7 @@ namespace BabelFish
 
             foreach (string key in app.Context.Request.QueryString.AllKeys)
             {
-                if(key!="lang"){
+                if(key != "lang"){
                     sb.Append("&" + key + "=" + app.Context.Request.QueryString[key]);
                 }
             }

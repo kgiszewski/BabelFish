@@ -21,7 +21,7 @@ namespace BabelFish
     {
         public static string GetLanguage()
         {
-            string languageParameter = HttpContext.Current.Request.QueryString["lang"];
+            var languageParameter = HttpContext.Current.Request.QueryString["lang"];
 
             if (!String.IsNullOrEmpty(languageParameter))
             {
@@ -47,7 +47,7 @@ namespace BabelFish
 
         public static string SetPageCulture()
         {
-            string langISO=HttpContext.Current.Request.QueryString["lang"];
+            var langISO = HttpContext.Current.Request.QueryString["lang"];
 
             if (langISO == null)
             {
@@ -79,14 +79,14 @@ namespace BabelFish
             if (content == null)
                 return "";
 
-            return BabelFish.BfHelper.TranslateUrl(content);
+            return TranslateUrl(content);
         }
 
         public static string NiceUrlWithBabelFish(this IPublishedContent content, string language, int index)
         {
-            var url = BabelFish.BfHelper.TranslateUrl(content);
+            var url = TranslateUrl(content);
 
-            string[] pathPieces = url.Split('/');
+            var pathPieces = url.Split('/');
 
             pathPieces[index] = language;
 
@@ -95,7 +95,69 @@ namespace BabelFish
 
         public static IPublishedContent TranslateWithBabelFish(this IPublishedContent content)
         {
-            return BabelFish.BfHelper.Translate(content);
+            var langISO = Extensions.GetLanguage();
+
+            try
+            {
+                if (langISO.Contains(','))
+                {
+                    langISO = langISO.Split(',')[0];
+                }
+
+                if (langISO == System.Web.Configuration.WebConfigurationManager.AppSettings["BabelFish:PrimaryLanguage"])
+                {
+                    return content;
+                }
+                else
+                {
+                    var list = content
+                        .Children
+                        .Where(o => o.DocumentTypeAlias == BabelFishCreateTranslation.BabelFishFolderDocTypeAlias)
+                        .First()
+                        .Children;
+
+                    foreach (var translation in list)
+                    {
+                        var thisTranslationISO = translation.GetProperty(BabelFishCreateTranslation.LanguagePropertyAlias).Value.ToString();
+
+                        if (thisTranslationISO == langISO)
+                        {
+                            return translation;
+                        }
+                    }
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public static string TranslateUrl(IPublishedContent content)
+        {
+            var langISO = Extensions.GetLanguage();
+
+            if (langISO == System.Web.Configuration.WebConfigurationManager.AppSettings["BabelFish:PrimaryLanguage"])
+            {
+                return content.Url;
+            }
+            else
+            {
+                var pathPieces = new List<string>();
+                pathPieces.AddRange(content.Url.Split('/').Where(o => o != ""));
+
+                //replace the 'translations' element in the url
+                if (pathPieces.Contains(BabelFishCreateTranslation.BabelFishFolderName.ToLower()))
+                {
+                    var index = pathPieces.FindIndex(o => o == BabelFishCreateTranslation.BabelFishFolderName.ToLower());
+                    pathPieces[index] = langISO;
+
+                    return "/" + String.Join("/", pathPieces);
+                }
+            }
+
+            return content.Url;
         }
     }
 }
