@@ -8,14 +8,14 @@ namespace BabelFish
 {
     public class ActionCreateTranslation : IAction
     {
-        //private static ActionView instance = new ActionView();
+        private static ActionCreateTranslation instance = new ActionCreateTranslation();
         private string _alias = "BabelFishCreateTranslation";
         private string _path;
 
-        //public static ActionView Instance
-        //{
-        //    get { return instance; }
-        //}
+        public static ActionCreateTranslation Instance
+        {
+            get { return instance; }
+        }
 
         #region IAction Members
         public string Alias
@@ -63,7 +63,7 @@ namespace BabelFish
         {
             get
             {
-                return ')';
+                return '¤';
             }
         }
 
