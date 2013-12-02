@@ -17,7 +17,7 @@ using Umbraco.Web.Models;
 
 namespace BabelFish
 {
-    public class AddTranslationAction : ApplicationEventHandler
+    public class AddTranslationAction : ApplicationStartupHandler
     {
         public AddTranslationAction()
         {
